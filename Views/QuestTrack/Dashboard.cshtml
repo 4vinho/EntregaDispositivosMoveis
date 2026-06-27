@@ -1,0 +1,75 @@
+@model EntregaDispositivosMoveis.ViewModels.DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+    ViewData["BodyClass"] = "body-dashboard";
+}
+
+<section class="screen screen-dashboard">
+    <div class="hero">
+        <div class="status-bar status-bar-dark">
+            <span>9:41</span>
+            <span class="status-indicator"></span>
+        </div>
+
+        <div class="hero-header">
+            <div>
+                <h1 class="hero-title">QuestTrack</h1>
+                <p class="hero-title" style="font-size: 1.45rem; margin-top: 8px;">Ola, @Model.StudentName</p>
+                <p class="hero-subtitle">Acompanhe sua evolucao nas questoes de concursos.</p>
+            </div>
+
+            <a class="hero-cta" asp-controller="QuestTrack" asp-action="Create">Nova Sessao</a>
+        </div>
+    </div>
+
+    <div class="dashboard-content">
+        <div class="metric-grid">
+            <article class="metric-card">
+                <span class="metric-label">Questoes</span>
+                <span class="metric-value">@Model.TotalQuestions</span>
+            </article>
+            <article class="metric-card">
+                <span class="metric-label">Acertos</span>
+                <span class="metric-value metric-value-success">@Model.TotalCorrectAnswers</span>
+            </article>
+            <article class="metric-card">
+                <span class="metric-label">Materias</span>
+                <span class="metric-value">@Model.TotalSubjects</span>
+            </article>
+        </div>
+
+        <section class="stack">
+            <h2 class="section-title">Aproveitamento geral</h2>
+            <div class="progress-row">
+                <div class="progress-track">
+                    <span class="progress-fill" style="width: @Model.OverallAccuracy%;"></span>
+                </div>
+                <span class="progress-label">@Model.OverallAccuracy.ToString("0.0")%</span>
+            </div>
+        </section>
+
+        <section class="stack">
+            <div class="section-header">
+                <h2 class="section-title">Ultimas sessoes</h2>
+                <a class="section-link" asp-controller="QuestTrack" asp-action="History">Ver historico</a>
+            </div>
+
+            @foreach (var session in Model.RecentSessions)
+            {
+                <article class="sheet-card">
+                    <div class="sheet-row">
+                        <div>
+                            <h3 class="sheet-title">@session.Subject</h3>
+                            <div class="sheet-date">@session.StudyDate.ToString("dd/MM/yyyy")</div>
+                            <div class="sheet-meta">@session.QuestionsAnswered questoes • @session.CorrectAnswers acertos</div>
+                        </div>
+                        <span class="chip chip-success">@session.AccuracyPercentage%</span>
+                    </div>
+                </article>
+            }
+        </section>
+
+        <a class="primary-button primary-button-primary" asp-controller="QuestTrack" asp-action="Stats">Ver Estatisticas</a>
+        <div class="home-indicator"></div>
+    </div>
+</section>

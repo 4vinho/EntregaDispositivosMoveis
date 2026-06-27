@@ -1,0 +1,46 @@
+@model EntregaDispositivosMoveis.ViewModels.HistoryViewModel
+@{
+    ViewData["Title"] = "Historico";
+}
+
+<section class="screen">
+    <div class="status-bar status-bar-light">
+        <span>9:41</span>
+        <span class="status-indicator"></span>
+    </div>
+
+    <header>
+        <h1 class="page-title">Historico</h1>
+        <p class="page-subtitle">Todas as sessoes cadastradas</p>
+    </header>
+
+    <div class="form-input" style="display: flex; align-items: center;">@Model.SearchPlaceholder</div>
+
+    <div class="pill-switch">
+        <div class="pill-switch-item">READ Listagem</div>
+        <a class="pill-switch-item pill-switch-item-active" asp-controller="QuestTrack" asp-action="Stats">Estatisticas</a>
+    </div>
+
+    <div class="stack">
+        @foreach (var session in Model.Sessions)
+        {
+            <article class="sheet-card">
+                <div class="sheet-row">
+                    <div>
+                        <h2 class="sheet-title">@session.Subject</h2>
+                        <div class="sheet-date">@session.StudyDate.ToString("dd/MM/yyyy")</div>
+                        <div class="sheet-meta">@session.QuestionsAnswered questoes • @session.CorrectAnswers acertos</div>
+                    </div>
+                    <span class="chip chip-success">@session.AccuracyPercentage%</span>
+                </div>
+
+                <div class="history-actions">
+                    <a class="chip chip-primary" asp-controller="QuestTrack" asp-action="Edit" asp-route-id="@session.Id">Editar</a>
+                    <a class="chip chip-danger" asp-controller="QuestTrack" asp-action="Delete" asp-route-id="@session.Id">Excluir</a>
+                </div>
+            </article>
+        }
+    </div>
+
+    <div class="home-indicator"></div>
+</section>
