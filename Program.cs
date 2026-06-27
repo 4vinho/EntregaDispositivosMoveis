@@ -1,4 +1,5 @@
 using EntregaDispositivosMoveis.Data;
+using EntregaDispositivosMoveis.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddSingleton<PrototypeDataService>();
 
 var app = builder.Build();
 
