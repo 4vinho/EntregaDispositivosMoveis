@@ -1,0 +1,55 @@
+@model EntregaDispositivosMoveis.ViewModels.SessionFormViewModel
+@{
+    ViewData["Title"] = Model.PageTitle;
+    var crudClass = Model.CrudAction == "UPDATE" ? "crud-value crud-value-update" : "crud-value";
+    var primaryClass = Model.CrudAction == "UPDATE" ? "primary-button primary-button-primary" : "primary-button";
+}
+
+<section class="screen">
+    <div class="status-bar status-bar-light">
+        <span>9:41</span>
+        <span class="status-indicator"></span>
+    </div>
+
+    <header>
+        <h1 class="page-title">@Model.PageTitle</h1>
+        <p class="page-subtitle">@Model.Subtitle</p>
+    </header>
+
+    <article class="sheet-card crud-card">
+        <div>
+            <span class="crud-label">Operacao CRUD</span>
+            <span class="@crudClass">@Model.CrudAction</span>
+        </div>
+        <p class="crud-description">@Model.CrudDescription</p>
+    </article>
+
+    <div class="form-grid">
+        <div class="form-field">
+            <label class="form-label">Materia</label>
+            <div class="form-input">@Model.Subject</div>
+        </div>
+
+        <div class="form-field">
+            <label class="form-label">Questoes feitas</label>
+            <div class="form-input">@Model.QuestionsAnswered</div>
+        </div>
+
+        <div class="form-field">
+            <label class="form-label">Acertos</label>
+            <div class="form-input">@Model.CorrectAnswers</div>
+        </div>
+
+        <div class="form-field">
+            <label class="form-label">Data do estudo</label>
+            <div class="form-input">@Model.StudyDate.ToString("dd/MM/yyyy")</div>
+        </div>
+    </div>
+
+    <div class="button-stack">
+        <a class="@primaryClass" asp-controller="QuestTrack" asp-action="@Model.PrimaryButtonRoute">@Model.PrimaryButtonText</a>
+        <a class="secondary-button" asp-controller="QuestTrack" asp-action="@Model.SecondaryButtonRoute">@Model.SecondaryButtonText</a>
+    </div>
+
+    <div class="home-indicator"></div>
+</section>
