@@ -9,5 +9,5 @@ public class AppDbContext : DbContext
     {
     }
 
-    public DbSet<Entrega> Entregas => Set<Entrega>();
+    public DbSet<QuestSession> QuestSessions => Set<QuestSession>();
 }

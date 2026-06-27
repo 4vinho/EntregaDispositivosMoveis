@@ -1,7 +1,6 @@
 @model EntregaDispositivosMoveis.ViewModels.SessionFormViewModel
 @{
     ViewData["Title"] = Model.PageTitle;
-    var crudClass = Model.CrudAction == "UPDATE" ? "crud-value crud-value-update" : "crud-value";
     var primaryClass = Model.CrudAction == "UPDATE" ? "primary-button primary-button-primary" : "primary-button";
 }
 
@@ -16,40 +15,48 @@
         <p class="page-subtitle">@Model.Subtitle</p>
     </header>
 
-    <article class="sheet-card crud-card">
-        <div>
-            <span class="crud-label">Operacao CRUD</span>
-            <span class="@crudClass">@Model.CrudAction</span>
-        </div>
-        <p class="crud-description">@Model.CrudDescription</p>
-    </article>
+    <form method="post" asp-controller="QuestTrack" asp-action="@Model.FormAction" class="form-grid">
+        @Html.AntiForgeryToken()
+        @if (Model.Id.HasValue)
+        {
+            <input asp-for="Id" type="hidden" />
+        }
 
-    <div class="form-grid">
-        <div class="form-field">
-            <label class="form-label">Materia</label>
-            <div class="form-input">@Model.Subject</div>
-        </div>
+        <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
 
         <div class="form-field">
-            <label class="form-label">Questoes feitas</label>
-            <div class="form-input">@Model.QuestionsAnswered</div>
+            <label class="form-label" asp-for="Subject">Materia</label>
+            <input class="form-input" asp-for="Subject" />
+            <span asp-validation-for="Subject" class="validation-message"></span>
         </div>
 
         <div class="form-field">
-            <label class="form-label">Acertos</label>
-            <div class="form-input">@Model.CorrectAnswers</div>
+            <label class="form-label" asp-for="QuestionsAnswered">Questoes feitas</label>
+            <input class="form-input" asp-for="QuestionsAnswered" type="number" min="1" />
+            <span asp-validation-for="QuestionsAnswered" class="validation-message"></span>
         </div>
 
         <div class="form-field">
-            <label class="form-label">Data do estudo</label>
-            <div class="form-input">@Model.StudyDate.ToString("dd/MM/yyyy")</div>
+            <label class="form-label" asp-for="CorrectAnswers">Acertos</label>
+            <input class="form-input" asp-for="CorrectAnswers" type="number" min="0" />
+            <span asp-validation-for="CorrectAnswers" class="validation-message"></span>
         </div>
-    </div>
 
-    <div class="button-stack">
-        <a class="@primaryClass" asp-controller="QuestTrack" asp-action="@Model.PrimaryButtonRoute">@Model.PrimaryButtonText</a>
-        <a class="secondary-button" asp-controller="QuestTrack" asp-action="@Model.SecondaryButtonRoute">@Model.SecondaryButtonText</a>
-    </div>
+        <div class="form-field">
+            <label class="form-label" asp-for="StudyDate">Data do estudo</label>
+            <input class="form-input" asp-for="StudyDate" type="date" />
+            <span asp-validation-for="StudyDate" class="validation-message"></span>
+        </div>
+
+        <div class="button-stack">
+            <button type="submit" class="@primaryClass">@Model.PrimaryButtonText</button>
+            <a class="secondary-button" asp-controller="QuestTrack" asp-action="@Model.SecondaryButtonRoute">@Model.SecondaryButtonText</a>
+        </div>
+    </form>
 
     <div class="home-indicator"></div>
 </section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -7,9 +7,48 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body class="@ViewData["BodyClass"]">
+    @{
+        var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+        var action = ViewContext.RouteData.Values["action"]?.ToString();
+        var showBottomMenu = string.Equals(controller, "QuestTrack", StringComparison.OrdinalIgnoreCase);
+
+        var dashboardActive = string.Equals(action, "Dashboard", StringComparison.OrdinalIgnoreCase);
+        var historyActive =
+            string.Equals(action, "History", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(action, "Edit", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(action, "Delete", StringComparison.OrdinalIgnoreCase);
+        var statsActive = string.Equals(action, "Stats", StringComparison.OrdinalIgnoreCase);
+        var createActive = string.Equals(action, "Create", StringComparison.OrdinalIgnoreCase);
+    }
     <main class="app-shell">
         <div class="phone-frame">
             @RenderBody()
+
+            @if (showBottomMenu)
+            {
+                <nav class="bottom-menu" aria-label="Navegacao principal">
+                    <a class="bottom-menu-item @(dashboardActive ? "bottom-menu-item-active" : string.Empty)"
+                       asp-controller="QuestTrack"
+                       asp-action="Dashboard">
+                        <span class="bottom-menu-label">Inicio</span>
+                    </a>
+                    <a class="bottom-menu-item @(historyActive ? "bottom-menu-item-active" : string.Empty)"
+                       asp-controller="QuestTrack"
+                       asp-action="History">
+                        <span class="bottom-menu-label">Historico</span>
+                    </a>
+                    <a class="bottom-menu-item @(statsActive ? "bottom-menu-item-active" : string.Empty)"
+                       asp-controller="QuestTrack"
+                       asp-action="Stats">
+                        <span class="bottom-menu-label">Estatisticas</span>
+                    </a>
+                    <a class="bottom-menu-item @(createActive ? "bottom-menu-item-active" : string.Empty)"
+                       asp-controller="QuestTrack"
+                       asp-action="Create">
+                        <span class="bottom-menu-label">Nova</span>
+                    </a>
+                </nav>
+            }
         </div>
     </main>
 
