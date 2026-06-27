@@ -1,0 +1,37 @@
+@model EntregaDispositivosMoveis.ViewModels.DeleteSessionViewModel
+@{
+    ViewData["Title"] = "Excluir sessao";
+}
+
+<section class="screen">
+    <div class="status-bar status-bar-light">
+        <span>9:41</span>
+        <span class="status-indicator"></span>
+    </div>
+
+    <header>
+        <h1 class="page-title">Excluir sessao</h1>
+        <p class="page-subtitle">Confirme antes de remover o registro.</p>
+    </header>
+
+    <article class="sheet-card delete-card">
+        <div class="alert-icon">!</div>
+        <h2 class="delete-title">Deseja excluir esta sessao?</h2>
+        <p class="delete-meta">@Model.Session.Subject • @Model.Session.QuestionsAnswered questoes • @Model.Session.CorrectAnswers acertos</p>
+        <p class="delete-copy">Essa acao representa o DELETE do CRUD e removera a linha correspondente no banco de dados.</p>
+    </article>
+
+    <div class="pill-switch">
+        <a class="secondary-button" asp-controller="QuestTrack" asp-action="History">Cancelar</a>
+        <a class="danger-button" asp-controller="QuestTrack" asp-action="History">Excluir</a>
+    </div>
+
+    <article class="sheet-card crud-card-delete">
+        <div>
+            <span class="crud-value crud-value-delete" style="font-size: 1.7rem; margin-top: 0;">Operacao CRUD: DELETE</span>
+        </div>
+        <p class="crud-description">Remove o registro da planilha apos confirmacao do usuario.</p>
+    </article>
+
+    <div class="home-indicator"></div>
+</section>

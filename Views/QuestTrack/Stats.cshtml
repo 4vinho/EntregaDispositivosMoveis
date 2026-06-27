@@ -1,0 +1,78 @@
+@model EntregaDispositivosMoveis.ViewModels.StatsViewModel
+@{
+    ViewData["Title"] = "Sua evolucao";
+    var labels = new[] { "S", "T", "Q", "Q", "S", "S", "D" };
+}
+
+<section class="screen">
+    <div class="status-bar status-bar-light">
+        <span>9:41</span>
+        <span class="status-indicator"></span>
+    </div>
+
+    <header>
+        <h1 class="page-title">Sua evolucao</h1>
+        <p class="page-subtitle">Resumo do desempenho por materia</p>
+    </header>
+
+    <div class="metric-grid">
+        <article class="metric-card">
+            <span class="metric-label">Questoes</span>
+            <span class="metric-value">@Model.TotalQuestions</span>
+        </article>
+        <article class="metric-card">
+            <span class="metric-label">Acertos</span>
+            <span class="metric-value metric-value-success">@Model.TotalCorrectAnswers</span>
+        </article>
+        <article class="metric-card">
+            <span class="metric-label">Erros</span>
+            <span class="metric-value metric-value-danger">@Model.TotalIncorrectAnswers</span>
+        </article>
+    </div>
+
+    <article class="summary-banner">
+        <div>
+            <span class="summary-banner-label">Media geral de aproveitamento</span>
+            <span class="summary-banner-value">@Model.OverallAccuracy.ToString("0.0")%</span>
+        </div>
+        <span class="summary-banner-trend">@Model.WeeklyVariationLabel</span>
+    </article>
+
+    <section class="stack">
+        <h2 class="section-title">Evolucao semanal</h2>
+        <article class="sheet-card chart-card">
+            <div class="chart-bars">
+                @for (var index = 0; index < Model.WeeklyPerformance.Count; index++)
+                {
+                    var height = Math.Max(40, Model.WeeklyPerformance[index]);
+                    var isSuccess = index >= 4;
+
+                    <div class="chart-column">
+                        <div class="chart-bar @(isSuccess ? "chart-bar-success" : string.Empty)" style="height: @(height)px;"></div>
+                        <span class="chart-label">@labels[index]</span>
+                    </div>
+                }
+            </div>
+        </article>
+    </section>
+
+    <section class="stack">
+        <h2 class="section-title">Desempenho por materia</h2>
+        <div class="performance-list">
+            @foreach (var item in Model.SubjectPerformances)
+            {
+                <div class="performance-row">
+                    <div class="performance-head">
+                        <span>@item.Subject</span>
+                        <span class="performance-value">@item.AccuracyPercentage%</span>
+                    </div>
+                    <div class="progress-track progress-track-sm">
+                        <span class="progress-fill" style="width: @item.AccuracyPercentage%;"></span>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+
+    <div class="home-indicator"></div>
+</section>
